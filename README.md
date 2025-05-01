@@ -1,9 +1,9 @@
 ![](UTA-DataScience-Logo.png)
 
-# Project Title
+# Predict Health Outcomes of Horses
 
-* **One Sentence Summary** Ex: This repository holds an attempt to apply LSTMs to Stock Market using data from
-"Get Rich" Kaggle challenge (provide link). 
+This repository holds files to build a model that attempts to predict whether a horse lived, died, or was euthanized
+based on its medical history from the "Predict Health Outcomes of Horses" Kaggle challenge (https://www.kaggle.com/competitions/playground-series-s3e22) 
 
 ## Overview
 
