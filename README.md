@@ -19,7 +19,7 @@ This repository holds files to build a XGBoost model to predict health outcomes 
   * Instances (Train, Test, Validation Split): 988 training instances, 247 validation instances, 824 test instances
 
 #### Preprocessing / Clean up
-
+* Since the test set had to be processed too, everything done to process training had to be done to test to keep things consistent
 * Converted lesion_1, lesion_2, lesion_3 to categorical features
 * Leave outliers in the dataset
 * Imputed missing values in categorical columns with mode. (Numerical values had no missing values)
