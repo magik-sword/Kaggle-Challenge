@@ -2,32 +2,30 @@
 
 # Predict Health Outcomes of Horses
 
-This repository holds files to build a model that attempts to predict whether a horse lived, died, or was euthanized
-based on its medical history from the "Predict Health Outcomes of Horses" Kaggle challenge (https://www.kaggle.com/competitions/playground-series-s3e22) 
+This repository holds files to build a XGBoost model to predict health outcomes from "Predict Health Outcomes of Horses" Kaggle challenge (https://www.kaggle.com/competitions/playground-series-s3e22) 
 
 ## Overview
 
-* This section could contain a short paragraph which include the following:
-  * **Definition of the tasks / challenge**  Ex: The task, as defined by the Kaggle challenge is to use a time series of 12 features, sampled daily for 1 month, to predict the next day's price of a stock.
-  * **Your approach** Ex: The approach in this repository formulates the problem as regression task, using deep recurrent neural networks as the model with the full time series of features as input. We compared the performance of 3 different network architectures.
-  * **Summary of the performance achieved** Ex: Our best model was able to predict the next day stock price within 23%, 90% of the time. At the time of writing, the best performance on Kaggle of this metric is 18%.
-
+  * Challenge: The task, as defined by the Kaggle challenge is to use a a dataset of health indicators to predict the health outcome of a horse.
+  * Approach: The approach in this repository formulates the problem as a multi-class classification task, using an optimized XGBoost on one-hot encoded features to predict whether a horse lived, died, or was euthanized.
+  * Summary: The XGBoost model achieved a micro-averaged F1 score of 73.48% on the Kaggle test dataset.
 ## Summary of Workdone
-
-Include only the sections that are relevant an appropriate.
 
 ### Data
 
 * Data:
-  * Type: For example
-    * Input: medical images (1000x1000 pixel jpegs), CSV file: image filename -> diagnosis
-    * Input: CSV file of features, output: signal/background flag in 1st column.
-  * Size: How much data?
-  * Instances (Train, Test, Validation Split): how many data points? Ex: 1000 patients for training, 200 for testing, none for validation
+  * Type: Categorical and Numerical
+    * Input: train.csv: dataset of health indicators with outcome labeled
+  * Size: 1,235 rows, 29 features, file size: 229 kB
+  * Instances (Train, Test, Validation Split): 988 training instances, 247 validation instances, 824 test instances
 
 #### Preprocessing / Clean up
 
-* Describe any manipulations you performed to the data.
+* Converted lesion_1, lesion_2, lesion_3 to categorical features
+* Imputed missing values in categorical columns with mode
+* Save a copy of the 'id' column from test.csv to use later for the Kaggle submission
+* Remove 'id', 'hospital_number', 'cp_data', 'lesion_2', 'lesion_3'
+* One-hot encode all the categorical features except for the outcome column
 
 #### Data Visualization
 
@@ -36,10 +34,11 @@ Show a few visualization of the data and say a few words about what you see.
 ### Problem Formulation
 
 * Define:
-  * Input / Output
-  * Models
-    * Describe the different models you tried and why.
-  * Loss, Optimizer, other Hyperparameters.
+  * Input: train.csv
+  * Output: submission.csv
+  * Model
+    * XGBoost: robust to outliers, no scaling needed, and strong multi-class classification performance.
+  * Tuned Hyperparameters: objective='multi:softmax', random_state=42, gamma=0.3, learning_rate=0.1, max_delta_step=3, max_depth=3, n_estimators=200)
 
 ### Training
 
@@ -75,25 +74,20 @@ Show a few visualization of the data and say a few words about what you see.
 
 ### Overview of files in repository
 
-* Describe the directory structure, if any.
-* List all relavent files and describe their role in the package.
-* An example:
-  * utils.py: various functions that are used in cleaning and visualizing data.
-  * preprocess.ipynb: Takes input data in CSV and writes out data frame after cleanup.
-  * visualization.ipynb: Creates various visualizations of the data.
-  * models.py: Contains functions that build the various models.
-  * training-model-1.ipynb: Trains the first model and saves model during training.
-  * training-model-2.ipynb: Trains the second model and saves model during training.
-  * training-model-3.ipynb: Trains the third model and saves model during training.
-  * performance.ipynb: loads multiple trained models and compares results.
-  * inference.ipynb: loads a trained model and applies it to test data to create kaggle submission.
-
-* Note that all of these notebooks should contain enough text for someone to understand what is happening.
+  * Training and Evaluation.ipynb: Contains code on how to train and evaluate the model. Also contains how to the create the submission.csv file.
+  * submission.csv: id and predicted outcome of each entry in the test set
 
 ### Software Setup
-* List all of the required packages.
-* If not standard, provide or point to instruction for installing the packages.
-* Describe how to install your package.
+* import pandas as pd
+* import numpy as np
+* import matplotlib.pyplot as plt
+* from IPython.display import HTML, display
+* import tabulate
+* from sklearn.preprocessing import OneHotEncoder
+* from sklearn.preprocessing import LabelEncoder
+* from sklearn.model_selection import train_test_split
+* from sklearn.metrics import classification_report, f1_score
+* from xgboost import XGBClassifier
 
 ### Data
 
@@ -106,12 +100,12 @@ Show a few visualization of the data and say a few words about what you see.
 
 #### Performance Evaluation
 
-* Describe how to run the performance evaluation.
-
+* There is a function in Training and Evaluation that will display classification report along with the micro-averaged F1 score. 
 
 ## Citations
 
-* Provide any references.
+* Why do tree-based models still outperform deep learning on tabular data?: (https://doi.org/10.48550/arXiv.2207.08815)
+
 
 
 
