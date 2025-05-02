@@ -7,7 +7,7 @@ This repository holds files to build a XGBoost model to predict health outcomes 
 ## Overview
 
   * Challenge: The task, as defined by the Kaggle challenge is to use a a dataset of health indicators to predict the health outcome of horses.
-  * Approach: The approach in this repository formulates the problem as a multi-class classification task, using an optimized XGBoost on one-hot encoded features to predict whether a horse lived, died, or was euthanized.
+  * Approach: The approach in this repository formulates the problem as a multi-class classification task, using an optimized XGBoost on imputed and one-hot encoded features to predict whether a horse lived, died, or was euthanized.
   * Summary: The XGBoost model achieved a micro-averaged F1 score of 73.48% on the Kaggle test dataset.
 ## Summary of Workdone
 
