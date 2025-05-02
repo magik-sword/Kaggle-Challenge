@@ -62,7 +62,7 @@ The barplot shows there's a moderate class imbalance in the dataset, something t
 ![image](https://github.com/user-attachments/assets/ba2e2942-bc30-4ea4-af2b-06b5ce593f0a)
 ![image](https://github.com/user-attachments/assets/d8f3626e-4f5e-4c25-8771-bf44c56440b5)
 
-Although I did look at precision, recall, and F1 to gauge individual class performance, the key metric I focused on improvind was micro-averaged F1 score
+Although I did look at precision, recall, and F1 to gauge individual class performance, the key metric I focused on improving was micro-averaged F1 score
 
 ### Conclusions
 
@@ -76,7 +76,7 @@ Although I did look at precision, recall, and F1 to gauge individual class perfo
   
 ## How to reproduce results
 
-* Reproducing the results in these files should be easy. By running all the cells in 'Data Visualization and Pre-Processing', one should receive a cleaned test.csv, train.csv, and a submission.csv with only the test_ids. Running all of the cells once again in the 'Training and Evaluation' file should result in a proper submission.csv with the test_ids in the first column, and the predictions for each entry in the second. If for some reason something doesn't work, check the code files for documentation.
+Reproducing the results in these files should be easy. By running all the cells in 'Data Visualization and Pre-Processing', one should receive a cleaned test.csv, train.csv, and a submission.csv with only the test_ids. Running all of the cells once again in the 'Training and Evaluation' file should result in a proper submission.csv with the test_ids in the first column, and the predictions for each entry in the second. If for some reason something doesn't work, check the code files for documentation.
 
 ### Overview of files in repository
 
@@ -95,8 +95,8 @@ Although I did look at precision, recall, and F1 to gauge individual class perfo
 
 #### Performance Evaluation
 
-* There is a function in Training and Evaluation that will display classification report along with the micro-averaged F1 score for the model when called.
+There is a function in Training and Evaluation that will display classification report along with the micro-averaged F1 score for the model when called.
 
 ## Citations
 
-* Why do tree-based models still outperform deep learning on tabular data?: (https://doi.org/10.48550/arXiv.2207.08815) 
+Why do tree-based models still outperform deep learning on tabular data?: (https://doi.org/10.48550/arXiv.2207.08815) 
