@@ -59,8 +59,6 @@ The barplot shows there's a moderate class imbalance in the dataset, something t
 
 ### Conclusions
 
-![image](https://github.com/user-attachments/assets/a871120d-4dd9-4934-b2f4-2d9d029dc283)
-
 * XGBoost, like many other tree-based models, performs excellent on multi-classification problems, even when given relatively little data to work with.
 
 ### Future Work
