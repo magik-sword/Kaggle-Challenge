@@ -59,9 +59,9 @@ The barplot shows there's a moderate class imbalance in the dataset, something t
   
 ### Performance Comparison
 
-Although I did look at precision, recall, and F1 to gauge individual class performance, the key metric I focused on improvind was micro-averaged F1 score
 ![image](https://github.com/user-attachments/assets/ba2e2942-bc30-4ea4-af2b-06b5ce593f0a)
 ![image](https://github.com/user-attachments/assets/d8f3626e-4f5e-4c25-8771-bf44c56440b5)
+Although I did look at precision, recall, and F1 to gauge individual class performance, the key metric I focused on improvind was micro-averaged F1 score
 
 ### Conclusions
 
