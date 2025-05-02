@@ -31,7 +31,7 @@ This repository holds files to build a XGBoost model to predict health outcomes 
 
 ![image](https://github.com/user-attachments/assets/a9a3a618-1bcd-4374-ba22-255d89564d2b)
 
-Features such as nasogastric_reflux_ph and abdomo_protein were highly useful because the euthanized class was clearly separated from both the living and died classes. The nasogastric_reflux_ph for euthanized horses is outside the normal range, but strangely abdimi_protein is low, which indicates a decreased chance of a compromised gut.
+Features such as nasogastric_reflux_ph and abdomo_protein were highly useful because the euthanized class was clearly separated from both the living and died classes. The nasogastric_reflux_ph for euthanized horses is outside the normal range, but strangely abdomo_protein is low, which indicates a decreased chance of a compromised gut.
 
 ![image](https://github.com/user-attachments/assets/b63215d8-84b8-4235-b936-85a81e7ec1e9)
 
