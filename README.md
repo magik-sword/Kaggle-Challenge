@@ -22,15 +22,21 @@ This repository holds files to build a XGBoost model to predict health outcomes 
 #### Preprocessing / Clean up
 
 * Converted lesion_1, lesion_2, lesion_3 to categorical features
+* Leave outliers in the dataset
 * Imputed missing values in categorical columns with mode
 * Save a copy of the 'id' column from test.csv to use later for the Kaggle submission
-* Remove 'id', 'hospital_number', 'cp_data', 'lesion_2', 'lesion_3'
+* Remove redundant/irrelevant columns: 'id', 'hospital_number', 'cp_data', 'lesion_2', 'lesion_3'
 * One-hot encode all the categorical features except for the outcome column
 
 #### Data Visualization
 
 ![image](https://github.com/user-attachments/assets/a9a3a618-1bcd-4374-ba22-255d89564d2b)
-Numerical features such as nasogastric_reflux_ph and abdomo_protein were highly useful because the euthanized class clustered almost entirely in 1 bin
+
+Features such as nasogastric_reflux_ph and abdomo_protein were highly useful because the euthanized class was clearly seperated from both the living and died classes
+
+![image](https://github.com/user-attachments/assets/b63215d8-84b8-4235-b936-85a81e7ec1e9)
+
+The barplot shows there's a moderate class imbalance in the dataset. This was furthur supported by the fact that euthanized was the class that had the lowest metrics out of the 3.
 
 
 ### Problem Formulation
