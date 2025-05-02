@@ -13,7 +13,6 @@ This repository holds files to build a XGBoost model to predict health outcomes 
 
 ### Data
 
-* Data:
   * Type: Categorical and Numerical
     * Input: train.csv: dataset of health indicators with outcome labeled
   * Size: 1,235 rows, 29 features, file size: 229 kB
