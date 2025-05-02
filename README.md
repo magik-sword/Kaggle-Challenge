@@ -29,7 +29,9 @@ This repository holds files to build a XGBoost model to predict health outcomes 
 
 #### Data Visualization
 
-Show a few visualization of the data and say a few words about what you see.
+![image](https://github.com/user-attachments/assets/a9a3a618-1bcd-4374-ba22-255d89564d2b)
+Numerical features such as nasogastric_reflux_ph and abdomo_protein were highly useful because the euthanized class clustered almost entirely in 1 bin
+
 
 ### Problem Formulation
 
@@ -74,6 +76,7 @@ Show a few visualization of the data and say a few words about what you see.
 
 ### Overview of files in repository
 
+  * Data Visualizations and Pre-Processing.ipynb: Exploratory data analysis, visualizations, and preprocessing steps to get a processed train, test, and submission file.
   * Training and Evaluation.ipynb: Contains code on how to train and evaluate the model. Also contains how to the create the submission.csv file.
   * submission.csv: id and predicted outcome of each entry in the test set
 
