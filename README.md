@@ -2,46 +2,51 @@
 
 # Predict Health Outcomes of Horses
 
-This repository holds files to build a XGBoost model to predict health outcomes from the "Predict Health Outcomes of Horses" Kaggle challenge (https://www.kaggle.com/competitions/playground-series-s3e22) 
+This repository holds files to build a XGBoost model to predict health outcomes from the "Predict Health Outcomes of Horses" Kaggle challenge (https://www.kaggle.com/competitions/playground-series-s3e22). 
 
 ## Overview
 
-  * Challenge: The task, as defined by the Kaggle challenge is to use a a dataset of health indicators to predict the health outcome of horses.
-  * Approach: The challenge is a multi-class classification one, so a hyperparameter tuned XGBoost model was used to predict whether a horse lived, died, or was euthanized.
-  * Summary: The XGBoost model achieved a micro-averaged F1 score of 73.48% on the Kaggle test dataset.
+  * Challenge: The task, as defined by the Kaggle challenge is to use a a dataset of health indicators such as pulse, respiratory rate, and temperature to predict whether a horse lived, died, or was euthanized. 
+  * Approach: The challenge is a multi-class classification one, so a XGBoost model with tuned hyperparameters was chosen.
+  * Summary: The XGBoost model achieved a micro-averaged F1 score of 0.73484, the current best score for the challenge is 0.78181.
     
 ## Summary of Workdone
 
 ### Data
 
   * Type: Categorical and Numerical
-    * Input: train.csv: Health indicators with outcome column at then end
+    * Input: train.csv: Health indicators with outcome column at the end
     * Input: test.csv: Health indicators with outcome column removed
-  * Size: Train: 1,235 rows, 29 features, file size: 229 kB & Test: 824 rows, 28 features, size: 148 kB
-  * Instances (Train, Test, Validation Split): 988 training instances, 247 validation instances, 824 test instances
+    * Input: sample_submission.csv: Example of predicted outcomes of the test set to send for evaluation
+  * Size:
+    * train: 1,235 rows, 29 features, size: 229.2 kB
+    * test: 824 rows, 28 features, size: 148.32 kB
+    * sample_submission: 824 rows, 2 features, size: 9.07 kB
+  * Instances (Train, Test, Validation Split): 988 training, 247 validation, and 824 test 
 
 #### Preprocessing / Clean up
-* Converted lesion_1, lesion_2, lesion_3 to categorical features
-* Leave outliers in the dataset
-* Imputed missing values in categorical columns with mode. (Numerical values had no missing values)
-* Save a copy of the 'id' column from test.csv to use later for the Kaggle submission
-* Remove redundant/irrelevant columns: 'id', 'hospital_number', 'cp_data', 'lesion_2', 'lesion_3'
-* One-hot encode all the categorical features except for the outcome column
+All of the steps below were applied to test.csv and train.csv to maintain dataset alignment:
+* Converted lesion_1, lesion_2, lesion_3 to categorical features to keep data types consistent
+* Kept outliers in both datasets to preserve potentially valuable information
+* Imputed missing values in categorical columns using mode from train.csv; no missing values were found in numerical features
+* Remove redundant or irrelevant columns: 'id', 'hospital_number', 'cp_data', 'lesion_2', 'lesion_3'
+* One-hot encoded the remaining categorical features, except the target column 'outcome' in train.csv
 
 #### Data Visualization
 
 ![image](https://github.com/user-attachments/assets/a9a3a618-1bcd-4374-ba22-255d89564d2b)
 
-Features such as nasogastric_reflux_ph and abdomo_protein were highly useful because the euthanized class was clearly separated from both the living and died classes. The nasogastric_reflux_ph for euthanized horses is outside the normal range, but strangely abdomo_protein is low, which indicates a decreased chance of a compromised gut.
+Features such as 'nasogastric_reflux_ph' and 'abdomo_protein' were highly useful for the model because the euthanized class was clearly separated from both the living and died classes. 
 
-![image](https://github.com/user-attachments/assets/b63215d8-84b8-4235-b936-85a81e7ec1e9)
+![image](https://github.com/user-attachments/assets/bcab9bb3-6dd7-416e-b7a3-12fdf848007a)
 
-The barplot shows there's a moderate class imbalance in the dataset, something to be taken into account when model training began.
+In contrast, features like 'lesion_3' were irrelevant. Over 99% of the samples in each class had no lesion, meaning this feature didn't effectively differentiate between the classes.
+
 
 ### Problem Formulation
 
 * Define:
-  * Input: train.csv, test.csv
+  * Input: train.csv, test.csv, sample_submission.csv
   * Output: submission.csv
   * Model
     * XGBoost: Robust to outliers, no scaling needed, and strong multi-class classification performance.
