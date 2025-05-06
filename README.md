@@ -32,8 +32,8 @@ All of the steps below were applied to `test.csv` and `train.csv` to maintain da
 * Converted `lesion_1`, `lesion_2`, and `lesion_3` to categorical features to keep data types consistent according to documentation.
 * Kept outliers in both datasets to preserve potentially valuable information.
 * Imputed missing values in categorical columns using the mode from `train.csv`; no missing values were found in numerical features.
-* Removed redundant or irrelevant columns: `'id'`, `'hospital_number'`, `'cp_data'`, `'lesion_2'`, `'lesion_3'`.
-* One-hot encoded the remaining categorical features, except the target column `'outcome'`.
+* Removed redundant or irrelevant columns: `id`, `hospital_number`, `cp_data`, `lesion_2`, `lesion_3`.
+* One-hot encoded the remaining categorical features, except the target column `outcome`.
 
 #### Data Visualization
 
@@ -41,11 +41,11 @@ There is a moderate class imbalance within the dataset: 46.5% lived, 33.2% died,
 
 ![image](https://github.com/user-attachments/assets/a9a3a618-1bcd-4374-ba22-255d89564d2b)
 
-Features such as `'nasogastric_reflux_ph'` and `'abdomo_protein'` were highly useful for the model because the euthanized class was clearly separated from both the living and dead classes.
+Features such as `nasogastric_reflux_ph` and `abdomo_protein` were highly useful for the model because the euthanized class was clearly separated from both the living and dead classes.
 
 ![image](https://github.com/user-attachments/assets/bcab9bb3-6dd7-416e-b7a3-12fdf848007a)
 
-In contrast, features like `'lesion_3'` were irrelevant. Over 99% of the samples in each class had no lesion, meaning this feature didn’t effectively differentiate between the classes.
+In contrast, features like `lesion_3` were irrelevant. Over 99% of the samples in each class had no lesion, meaning this feature didn’t effectively differentiate between the classes.
 
 ### Problem Formulation
 
@@ -84,8 +84,6 @@ The micro-averaged F1-score is calculated by counting the total number of true p
 ## How to Reproduce Results
 
 By running all the cells in **Data Visualizations and Pre-Processing**, one should obtain cleaned train and test CSV files. Running all the cells in the **Training and Evaluation** notebook will generate a valid `submission.csv` file with the test IDs in the first column and the predictions for each entry in the test dataset in the second.
-
-If there’s a problem or you want to try some different methods, check the code files for documentation.
 
 ### Overview of Files in Repository
 
