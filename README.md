@@ -8,7 +8,7 @@ This repository holds files to build an XGBoost model to predict health outcomes
 
 * **Challenge:** The task, as defined by the Kaggle challenge, is to use a dataset of health indicators such as pulse, respiratory rate, and temperature to predict whether a horse lived, died, or was euthanized.
 * **Approach:** The challenge is a multi-class classification one, so an XGBoost model with tuned hyperparameters was chosen.
-* **Summary:** The XGBoost model achieved a micro-averaged F1 score of 0.73484; the current best score for the challenge is 0.78181.
+* **Summary:** The XGBoost model achieved a micro-averaged F1-score of 0.73484; the current best score for the challenge is 0.78181.
 
 ## Summary of Work Done
 
@@ -37,8 +37,7 @@ All of the steps below were applied to `test.csv` and `train.csv` to maintain da
 
 #### Data Visualization
 
-There is a moderate class imbalance within the dataset:  
-46.5% lived, 33.2% died, and 20.3% were euthanized.
+There is a moderate class imbalance within the dataset: 46.5% lived, 33.2% died, and 20.3% were euthanized.
 
 ![image](https://github.com/user-attachments/assets/a9a3a618-1bcd-4374-ba22-255d89564d2b)
 
@@ -70,7 +69,7 @@ In contrast, features like `'lesion_3'` were irrelevant. Over 99% of the samples
 
 ![image](https://github.com/user-attachments/assets/c47c0cd7-cf77-4aaa-8b23-61d8773984dc)
 
-The micro-averaged F1-score gives equal weight to each class by considering the total number of true positives, false positives, and false negatives. It acts as an accuracy score and can show the overall performance of the model without being heavily affected by the class imbalance.
+The micro-averaged F1-score is calculated by counting the total number of true positives, false positives, and false negatives across all three classes. It acts as an accuracy score and provides an overall measure of the model's performance.
 
 ### Conclusions
 
@@ -91,7 +90,7 @@ If there’s a problem or you want to try some different methods, check the code
 ### Overview of Files in Repository
 
 * `Data Visualizations and Pre-Processing.ipynb`: Performs feature visualizations and outputs cleaned test and train CSV files.
-* `Training and Evaluation.ipynb`: Trains and evaluates the model. Outputs the `submission.csv` in an (id, outcome) format.
+* `Training and Evaluation.ipynb`: Trains and evaluates the models. Outputs the `submission.csv` in an (id, outcome) format.
 * `sample_submission.csv`: Example of the expected format of the final submission file to be sent to Kaggle for evaluation.
 * `submission.csv`: ID and predicted outcome of each entry in the test set.
 
