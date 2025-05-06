@@ -2,98 +2,103 @@
 
 # Predict Health Outcomes of Horses
 
-This repository holds files to build a XGBoost model to predict health outcomes from the "Predict Health Outcomes of Horses" Kaggle challenge (https://www.kaggle.com/competitions/playground-series-s3e22). 
+This repository holds files to build an XGBoost model to predict health outcomes from the ["Predict Health Outcomes of Horses" Kaggle challenge](https://www.kaggle.com/competitions/playground-series-s3e22).
 
 ## Overview
 
-  * Challenge: The task, as defined by the Kaggle challenge is to use a a dataset of health indicators such as pulse, respiratory rate, and temperature to predict whether a horse lived, died, or was euthanized. 
-  * Approach: The challenge is a multi-class classification one, so a XGBoost model with tuned hyperparameters was chosen.
-  * Summary: The XGBoost model achieved a micro-averaged F1 score of 0.73484, the current best score for the challenge is 0.78181.
-    
-## Summary of Workdone
+* **Challenge:** The task, as defined by the Kaggle challenge, is to use a dataset of health indicators such as pulse, respiratory rate, and temperature to predict whether a horse lived, died, or was euthanized.
+* **Approach:** The challenge is a multi-class classification one, so an XGBoost model with tuned hyperparameters was chosen.
+* **Summary:** The XGBoost model achieved a micro-averaged F1 score of 0.73484; the current best score for the challenge is 0.78181.
+
+## Summary of Work Done
 
 ### Data
 
-  * Type: Categorical and Numerical
-    * Input: train.csv: Health indicators with outcome column at the end
-    * Input: test.csv: Health indicators with outcome column removed
-    * Input: sample_submission.csv: Example of predicted outcomes of the test set to send for evaluation
-  * Size:
-    * train: 1,235 rows, 29 features, size: 229.2 kB
-    * test: 824 rows, 28 features, size: 148.32 kB
-    * sample_submission: 824 rows, 2 features, size: 9.07 kB
-  * Instances (Train, Test, Validation Split): 988 training, 247 validation, and 824 test 
+* **Type:** Categorical and Numerical
+* **Input:**
+  * `train.csv`: Health indicators with outcome column at the end
+  * `test.csv`: Health indicators with outcome column removed
+  * `sample_submission.csv`: Example of predicted outcomes of the test set to send for evaluation
+* **Size:**
+  * `train.csv`: 1,235 rows, 29 features, size: 229.2 kB
+  * `test.csv`: 824 rows, 28 features, size: 148.32 kB
+  * `sample_submission.csv`: 824 rows, 2 features, size: 9.07 kB
+* **Instances (Train, Validation, Test Split):** 988 training, 247 validation, 824 test
 
-#### Preprocessing / Clean up
-All of the steps below were applied to test.csv and train.csv to maintain dataset alignment:
-* Converted lesion_1, lesion_2, lesion_3 to categorical features to keep data types consistent
-* Kept outliers in both datasets to preserve potentially valuable information
-* Imputed missing values in categorical columns using mode from train.csv; no missing values were found in numerical features
-* Remove redundant or irrelevant columns: 'id', 'hospital_number', 'cp_data', 'lesion_2', 'lesion_3'
-* One-hot encoded the remaining categorical features, except the target column 'outcome' in train.csv
+#### Preprocessing / Clean Up
+
+All of the steps below were applied to `test.csv` and `train.csv` to maintain dataset alignment:
+
+* Converted `lesion_1`, `lesion_2`, and `lesion_3` to categorical features to keep data types consistent according to documentation.
+* Kept outliers in both datasets to preserve potentially valuable information.
+* Imputed missing values in categorical columns using the mode from `train.csv`; no missing values were found in numerical features.
+* Removed redundant or irrelevant columns: `'id'`, `'hospital_number'`, `'cp_data'`, `'lesion_2'`, `'lesion_3'`.
+* One-hot encoded the remaining categorical features, except the target column `'outcome'`.
 
 #### Data Visualization
 
-There is a moderate class imbalance within the dataset: 46.5% lived, 33.2% died, and 20.3% euthanized.
+There is a moderate class imbalance within the dataset:  
+46.5% lived, 33.2% died, and 20.3% were euthanized.
 
 ![image](https://github.com/user-attachments/assets/a9a3a618-1bcd-4374-ba22-255d89564d2b)
 
-Features such as 'nasogastric_reflux_ph' and 'abdomo_protein' were highly useful for the model because the euthanized class was clearly separated from both the living and died classes. 
+Features such as `'nasogastric_reflux_ph'` and `'abdomo_protein'` were highly useful for the model because the euthanized class was clearly separated from both the living and dead classes.
 
 ![image](https://github.com/user-attachments/assets/bcab9bb3-6dd7-416e-b7a3-12fdf848007a)
 
-In contrast, features like 'lesion_3' were irrelevant. Over 99% of the samples in each class had no lesion, meaning this feature didn't effectively differentiate between the classes.
-
+In contrast, features like `'lesion_3'` were irrelevant. Over 99% of the samples in each class had no lesion, meaning this feature didn’t effectively differentiate between the classes.
 
 ### Problem Formulation
 
-* Define:
-  * Input: train.csv, test.csv, sample_submission.csv
-  * Output: submission.csv
-  * Model
+* **Define:**
+  * **Input:** `train.csv`, `test.csv`, `sample_submission.csv`
+  * **Output:** `submission.csv`
+  * **Model:**
     * XGBoost: Robust to outliers, no scaling needed, and strong multi-class classification performance.
-  * Tuned Hyperparameters: objective='multi:softmax', random_state=42, gamma=0.3, learning_rate=0.1, max_delta_step=3, max_depth=3, n_estimators=200)
+    * Tuned Hyperparameters: `objective='multi:softmax'`, `random_state=42`, `gamma=0.3`, `learning_rate=0.1`, `max_delta_step=3`, `max_depth=3`, `n_estimators=200`
 
 ### Training
 
-* Load the cleaned train and test CSV files generated 'Data Processing and Pre-Processing' and sample_submission CSV file
-* Label-encode the outcome column on the training set
+* Load the cleaned train and test CSV files generated by **Data Visualizations and Pre-Processing**, along with the `sample_submission.csv`.
+* Label-encode the `outcome` column on the training set.
 * Split the training data into training and validation sets, and train a baseline XGBoost model.
 * Perform hyperparameter tuning using GridSearch.
-* Create new XGBoost model using these hyperparameters
-* Evaluate the new model
-  
+* Create a new XGBoost model using these hyperparameters and evaluate the new model on the validation set again.
+* Finally, train the model on the entire cleaned `train.csv` dataset and use it to predict the outcomes on the `test.csv` dataset.
+
 ### Performance Comparison
 
 ![image](https://github.com/user-attachments/assets/c47c0cd7-cf77-4aaa-8b23-61d8773984dc)
 
-Micro-averaged F1-Score gives equal weight to each class by considering the total number of true positives, false positives, and false negatives. It acts as an accuracy score and can show the overall performance of the model without being heavily affected by the class imbalance. 
-
+The micro-averaged F1-score gives equal weight to each class by considering the total number of true positives, false positives, and false negatives. It acts as an accuracy score and can show the overall performance of the model without being heavily affected by the class imbalance.
 
 ### Conclusions
 
-* XGBoost performs excellent on multi-classification problems, even when given relatively little data to work with.
+* XGBoost performs extremely well on multi-class classification problems, even when given relatively little data to work with.
 
 ### Future Work
 
-* Try scaling or handling outliers in a different way
-* Remove highly correlated features
-* Incorporate the original, real-world dataset into training the model
-  
-## How to reproduce results
+* Try scaling or handling outliers in a different way.
+* Remove highly correlated features.
+* Incorporate the original, real-world dataset into training the model.
 
-By running all the cells in 'Data Visualization and Pre-Processing', one should receive a cleaned train and test CSV files. Running all of the cells once again in the 'Training and Evaluation' file should result in a proper submission.csv with the test_ids in the first column, and the predictions for each entry in test dataset in the second. If there's a problem or you want to try some different methods, check the code files for documentation.
+## How to Reproduce Results
 
-### Overview of files in repository
+By running all the cells in **Data Visualizations and Pre-Processing**, one should obtain cleaned train and test CSV files. Running all the cells in the **Training and Evaluation** notebook will generate a valid `submission.csv` file with the test IDs in the first column and the predictions for each entry in the test dataset in the second.
 
-  * Data Visualizations and Pre-Processing.ipynb: Feature visualizations and outputs cleaned test and train CSV files
-  * Training and Evaluation.ipynb: Trains and evaluates the model. Outputs the submission.csv with a (id, outcome) format
-  * sample_submission.csv: Example of the expected format of the final submission file to be sent to Kaggle for evaluation
-  * submission.csv: id and predicted outcome of each entry in the test set
+If there’s a problem or you want to try some different methods, check the code files for documentation.
+
+### Overview of Files in Repository
+
+* `Data Visualizations and Pre-Processing.ipynb`: Performs feature visualizations and outputs cleaned test and train CSV files.
+* `Training and Evaluation.ipynb`: Trains and evaluates the model. Outputs the `submission.csv` in an (id, outcome) format.
+* `sample_submission.csv`: Example of the expected format of the final submission file to be sent to Kaggle for evaluation.
+* `submission.csv`: ID and predicted outcome of each entry in the test set.
 
 ### Required Libraries
+
 * Pandas
-* Numpy
+* NumPy
 * Matplotlib
 * IPython
 * Tabulate
@@ -102,8 +107,8 @@ By running all the cells in 'Data Visualization and Pre-Processing', one should 
 
 #### Performance Evaluation
 
-There's a simple function that displays the micro-averaged F1-Score of each model iteration, along with a table at the end of the 'Training and Evaluation' file that displays a table of all the models and their respective scores.
+There’s a simple function that displays the micro-averaged F1-score of each model iteration, along with a table at the end of the **Training and Evaluation** notebook that shows a summary of all models and their respective scores.
 
 ## Citations
 
-Why do tree-based models still outperform deep learning on tabular data?: (https://doi.org/10.48550/arXiv.2207.08815) 
+Why do tree-based models still outperform deep learning on tabular data? [(https://doi.org/10.48550/arXiv.2207.08815)](https://doi.org/10.48550/arXiv.2207.08815)
