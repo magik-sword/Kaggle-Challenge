@@ -34,6 +34,8 @@ All of the steps below were applied to test.csv and train.csv to maintain datase
 
 #### Data Visualization
 
+There is a moderate class imbalance within the dataset: 46.5% lived, 33.2% died, and 20.3% euthanized.
+
 ![image](https://github.com/user-attachments/assets/a9a3a618-1bcd-4374-ba22-255d89564d2b)
 
 Features such as 'nasogastric_reflux_ph' and 'abdomo_protein' were highly useful for the model because the euthanized class was clearly separated from both the living and died classes. 
@@ -54,20 +56,19 @@ In contrast, features like 'lesion_3' were irrelevant. Over 99% of the samples i
 
 ### Training
 
-* Load the train, test, and submission CSV files generated from 'Data Processing and Pre-Processing' file as Pandas dataframes
-* Label-encode the outcome column
+* Load the cleaned train and test CSV files generated 'Data Processing and Pre-Processing' and sample_submission CSV file
+* Label-encode the outcome column on the training set
 * Split the training data into training and validation sets, and train a baseline XGBoost model.
 * Perform hyperparameter tuning using GridSearch.
-* Evaluate a new XGBoost model using the optimized parameters
-* Fit this new model to the test set, reverse the label encoding on the predictions, and append them to the submission dataframe
-* Create the submission file to send to Kaggle for evaluation
+* Create new XGBoost model using these hyperparameters
+* Evaluate the new model
   
 ### Performance Comparison
 
-![image](https://github.com/user-attachments/assets/ba2e2942-bc30-4ea4-af2b-06b5ce593f0a)
-![image](https://github.com/user-attachments/assets/d8f3626e-4f5e-4c25-8771-bf44c56440b5)
+![image](https://github.com/user-attachments/assets/c47c0cd7-cf77-4aaa-8b23-61d8773984dc)
 
-Although I did look at precision, recall, and F1 to gauge individual class performance, the key metric I focused on improving was micro-averaged F1 score
+Micro-averaged F1-Score gives equal weight to each class by considering the total number of true positives, false positives, and false negatives. It acts as an accuracy score and can show the overall performance of the model without being heavily affected by the class imbalance. 
+
 
 ### Conclusions
 
@@ -81,12 +82,13 @@ Although I did look at precision, recall, and F1 to gauge individual class perfo
   
 ## How to reproduce results
 
-Reproducing the results in these files should be easy. By running all the cells in 'Data Visualization and Pre-Processing', one should receive a cleaned test.csv, train.csv, and a submission.csv with only the test_ids. Running all of the cells once again in the 'Training and Evaluation' file should result in a proper submission.csv with the test_ids in the first column, and the predictions for each entry in the second. If for some reason something doesn't work, check the code files for documentation.
+By running all the cells in 'Data Visualization and Pre-Processing', one should receive a cleaned train and test CSV files. Running all of the cells once again in the 'Training and Evaluation' file should result in a proper submission.csv with the test_ids in the first column, and the predictions for each entry in test dataset in the second. If there's a problem or you want to try some different methods, check the code files for documentation.
 
 ### Overview of files in repository
 
-  * Data Visualizations and Pre-Processing.ipynb: Exploratory data analysis, visualizations, and preprocessing steps. Creates a processed train, test, and partial submission file.
-  * Training and Evaluation.ipynb: Trains and evaluates the model. Outputs the submission.csv with a (id, outcome) format.
+  * Data Visualizations and Pre-Processing.ipynb: Feature visualizations and outputs cleaned test and train CSV files
+  * Training and Evaluation.ipynb: Trains and evaluates the model. Outputs the submission.csv with a (id, outcome) format
+  * sample_submission.csv: Example of the expected format of the final submission file to be sent to Kaggle for evaluation
   * submission.csv: id and predicted outcome of each entry in the test set
 
 ### Required Libraries
@@ -95,12 +97,12 @@ Reproducing the results in these files should be easy. By running all the cells 
 * Matplotlib
 * IPython
 * Tabulate
-* Sci-kit 
+* Scikit-Learn
 * XGBoost
 
 #### Performance Evaluation
 
-There is a function in Training and Evaluation that will display classification report along with the micro-averaged F1 score for the model when called.
+There's a simple function that displays the micro-averaged F1-Score of each model iteration, along with a table at the end of the 'Training and Evaluation' file that displays a table of all the models and their respective scores.
 
 ## Citations
 
